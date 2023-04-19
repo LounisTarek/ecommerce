@@ -1,0 +1,58 @@
+{% extends 'main.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+<div class="container" style="background-color: white;">
+<div class="row justify-content-center m-4">
+    {% if products %}
+{% for item in products %}
+          <div class="col-md-4">
+             <div class="card m-3 p-2" style="width: 18rem; box-shadow: 4px 4px #c291fa; border-radius: 10px 10px;">
+                <img src="{{ item.product_image.url }}" style="width:265px; height:160px" class="card-img-top" alt="...">
+                  <div class="card-body">
+                      <h2 class="card-title mt-1" style="font-size: 18;"><b>{{ item.name }}</b></h2>
+                      <h3 style="color: rgb(16, 52, 107)" class="card-subtitle mt-1">${{ item.price }}</h3>
+                      <div class="qs">
+                      <hr>
+                        <p class="cart-text mt-1" style="color: rgb(16, 52, 107)"><i class="fa-regular fa-clock"></i>{{ item.date_created }}</p>
+                        <a href="{% url 'productview' item.pk %}" class="btn btn-primary float-end" style="width:100%"><i class="fa-solid fa-eye"></i>View Product</a>
+                   </div>
+                      </div>
+             </div>
+          </div>
+{% endfor %}
+     {% if products.has_other_pages %}
+        <div class="row m-5">
+          <div class="col-md-12 m-2">
+              <ul class="pagination">
+
+                    {% if products.has_previous %}
+                        <li class="page-item">
+                          <a href="?q={{ q }}&page={{ products.previous_page_number }}" class="page-link">Previous
+                          </a>
+                        <li>
+                     {% endif %}
+
+                        <li class="page-item active" aria-current="page">
+                          <a href="?q={{ q }}&page={{ products.number }}" class="page-link">{{ products.number }}</a>
+                        </li>
+
+                  {% if products.has_next %}
+                  <li class="page-item">
+                    <a href="?q={{ q }}&page={{ products.next_page_number }}" class="page-link">Next
+                    </a>
+                  <li>
+                  {% endif %}
+              </ul>
+          </div>
+        </div>
+    {% endif %}
+    {% else %}
+           <p style="color:red;margin-top:150;" class="text-center">No product available </p>
+    {% endif %}
+     </div>
+    </div>
+{% endblock %}

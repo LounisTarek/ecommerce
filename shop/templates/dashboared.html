@@ -1,0 +1,59 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Trending Products</h4>
+      <hr>
+      <div class="row">
+        <div class="owl-carousel owl-theme">
+        {% for item in trending_product %}
+        <div class="item">
+          <div class="card">
+            <a href="{% url 'productview' item.pk %}">
+              <div class="card-body">
+                <div class="category-image">
+                      <img src="{{ item.product_image.url }}" style="width:265px; height:160px" class="w-100" alt="product image">
+                </div>
+                <h4 class="text-center"> {{ item.name }} </h4>
+              </div>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+          </div>
+      </div>
+    </div>
+  </div>
+{% for message in messages %}
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+   <div class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+   <div class="d-flex">
+    <div class="toast-body">
+      {{ message }}
+    </div>
+    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+</div>
+      {% endif %}
+  {% endfor %}
+
+</div>
+
+{% for message in messages %}
+{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+   <div class="toast-container" style="top: 80px; right: 10px;">
+    <div class="toast bg-success text-white fade show">
+        <div class="toast-header bg-success text-white">
+            <strong class="me-auto">{{ message }}</strong>
+            <small>just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+    </div>
+{% endif %}
+{% endfor %}
+
+{% endblock %}

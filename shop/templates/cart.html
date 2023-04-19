@@ -1,0 +1,57 @@
+{% extends 'main.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+    <div class="col-md-12">
+      <div class="card mb-3 shadow product_data" style="margin-top: 30px;">
+      <div class="card-body">
+        {% if carts %}
+          {% for item in carts %}
+          <div class="row" >
+              <div class="col-md-1 my auto">
+                     <img src="{{ item.product.product_image.url }}" style="width:160px; height:90px" class="card-img-top" alt="...">
+              </div>
+          <div class="col-md-3 my-auto" style="margin-left:50px;text-align:center">
+              <h3 class="card-title"><b>{{ item.product.name }}</b></h3>
+          </div>
+          <div class="col-md-1 my-auto" style="text-align:center">
+             <h4 style="color: rgb(16, 52, 107)" >${{ item.product.price }}</h4>
+          </div>
+          <div class="col-md-2 my-auto product_data">
+            {% csrf_token %}
+           <input type="hidden" value="{{ item.product.id }}" class="prod_id">
+          {% if item.product.quantity >= item.product_qty %}
+          <label><b>Quantity:</b></label>
+          <div class="input-group text-center mb-3" style="width:130px;">
+             <button class="input-group-text decrement-btn">-</button>
+              <input type="text" name="quantity" class="form-control qty-input text-center" value="1">
+             <button class="input-group-text increment-btn" >+</button>
+          </div>
+              </div>
+              {% else %}
+              <h4>Out of stock</h4>
+            {% endif %}
+            <div class="btn-toolbar col-md-4 my-auto" role="toolbar" aria-label="Toolbar with button groups">
+              <div class="btn-group" role="group" aria-label="First group">
+                <a href="{% url 'deletecart' item.product.pk %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i>Remove</a>
+             </div>
+           <div class="btn-group" role="group" aria-label="Second group" style="margin-left:5px">
+              <a href="{% url 'productview' item.product.pk %}" class="btn btn-primary float-end"><i class="fa-solid fa-eye"></i>View Product</a>
+         </div>
+            </div>
+              <hr style="margin-top:10px">
+          {% endfor %}
+
+          {%  else %}
+          <h4>your cart is empty</h4>
+          {% endif %}
+    </div>
+  </div>
+</div>
+    </div>
+
+
+{% endblock %}

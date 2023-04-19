@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<div class="container">
+    <div class="col-md-12">
+      <div class="row justify-content-center ">
+    {% if carts %}
+     {% for item in carts %}
+<div class="card" style="width: 18rem; margin-left:20px;margin-top:20px">
+    <img src="{{ item.product.product_image.url }}" class="img-fluid rounded-start" alt="..." style="height:140px">
+  <div class="card-body">
+    <h3 class="card-title"><b>{{ item.product.name }}</b></h3>
+     <h4 style="color: rgb(16, 52, 107)" >${{ item.product.price }}</h4>
+      <a href="{% url 'productview' item.product.pk %}" class="btn btn-primary float-end"><i class="fa-solid fa-eye"></i>View Product</a>
+  </div>
+</div>
+{% endfor %}
+{%  else %}
+      <h4>your wishlist is empty</h4>
+    {% endif %}
+</div>
+ </div>
+  </div>
+
+{% endblock %}

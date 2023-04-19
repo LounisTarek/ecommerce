@@ -1,0 +1,64 @@
+{% load static %}
+
+<nav class="navbar text-light navbar-expand-lg" data-bs-theme="dark" style="background-color: rgb(55 70 133);">
+  <div class="container-fluid">
+       <a class="navbar-brand" href="#">E-commerce</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+      <div class="ms-auto">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Category
+          </a>
+          <ul class="dropdown-menu" style="background-color: rgb(55 70 133)">
+              {% for category in data %}
+            <li><a class="dropdown-item" href="{% url 'category' category.slug %}">{{category.slug}}</a></li>
+              {% endfor %}
+          </ul>
+        </li>
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+          <a class="nav-link active position-relative" aria-current="page" href="{% url 'cart' %}"><i class="fa-regular fa-cart-shopping" style="position: relative;top: 5px;"></i><span class="badge text-bg-danger">{{ cartcount }}</span></a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'viewwishlist' %}">Wishlist<span class="badge text-bg-danger">{{ wishlistcount }}</span></a>
+        </li>
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-regular fa-circle-user"></i>{{user.username}}
+          </a>
+          <ul class="dropdown-menu" style="background-color: rgb(55 70 133)">
+            <li><a class="nav-link active" aria-current="page" href="{% url 'logout' %}"><i class="fa-regular fa-right-from-bracket"></i>Logout</a></li>
+          </ul>
+        </li>
+          {% else %}
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <div class="btn-group" role="group">
+          <li class="nav-item">
+            <button type="button" class="btn" style="background-color: rgb(55 70 133);border-color:white;text-color:white"><a aria-current="page" href="{% url 'login' %}">Login</a></button>
+          </li>
+          </div>
+          <div class="btn-group" role="group">
+         <li class="nav-item">
+            <button type="button" class="btn" style="background-color: white;border-color:white;margin-left:5px"><a aria-current="page" href="{% url 'register' %}">Sign Up<i class="fa-regular fa-right-to-bracket"></i></a></button>
+          </li>
+          </div>
+        </div>
+          {% endif %}
+      </ul>
+        </div>
+    </div>
+  </div>
+</nav>
+  <div class="container justify-content-center" style="width: 480;margin-top: 30;">
+     <form class="d-flex" role="search" action="{% url 'search' %}" method="get">
+        <input class="form-control me-2" name="q" type="search" placeholder="Search..." aria-label="Search" style="border-color: blue;">
+        <button class="btn btn-light" type="submit" style="border-color: blue;">Search</button>
+      </form>
+  </div>
